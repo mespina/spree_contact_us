@@ -1,6 +1,6 @@
 class Spree::ContactUs::ContactsController < Spree::StoreController
-
   helper "spree/products"
+
   def create
     @contact = Spree::ContactUs::Contact.new(params[:contact_us_contact])
 
@@ -10,6 +10,7 @@ class Spree::ContactUs::ContactsController < Spree::StoreController
       end
       redirect_to(spree.root_path, :notice => Spree.t('contact_us.notices.success'))
     else
+      @taxonomies = Spree::Taxonomy.includes(root: :children)
       render :new
     end
   end
@@ -19,10 +20,9 @@ class Spree::ContactUs::ContactsController < Spree::StoreController
     @taxonomies = Spree::Taxonomy.includes(root: :children)
   end
 
+
   private
-
-  def accurate_title
-    Spree.t(:contact_us_title)
-  end
-
+    def accurate_title
+      Spree.t(:contact_us_title)
+    end
 end
